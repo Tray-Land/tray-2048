@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="Tray2048.Views.TileView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Width="70"
+    Height="70"
+    IsHitTestVisible="False"
+    IsTabStop="False">
+
+    <!--  Slides animate Translate, spawns and merges animate Scale around the tile's center.  -->
+    <UserControl.RenderTransform>
+        <CompositeTransform x:Name="Transform" CenterX="35" CenterY="35" />
+    </UserControl.RenderTransform>
+
+    <Grid>
+        <Border
+            x:Name="Face"
+            BorderBrush="{ThemeResource TileStrokeBrush}"
+            BorderThickness="1"
+            CornerRadius="8" />
+        <Border Background="{StaticResource TileSheenBrush}" CornerRadius="8" />
+        <TextBlock
+            x:Name="Label"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontFamily="Segoe UI Variable Display"
+            FontWeight="Bold"
+            TextLineBounds="Tight" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="ValueStates">
+                <VisualState x:Name="Value2">
+                    <VisualState.Setters>
+                        <Setter Target="Face.Background" Value="{ThemeResource Tile2Background}" />
+                        <Setter Target="Label.Foreground" Value="{ThemeResource Tile2Foreground}" />
+                        <Setter Target="Label.FontSize" Value="32" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Value4">
+                    <VisualState.Setters>
+                        <Setter Target="Face.Background" Value="{ThemeResource Tile4Background}" />
+                        <Setter Target="Label.Foreground" Value="{ThemeResource Tile4Foreground}" />
+                        <Setter Target="Label.FontSize" Value="32" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Value8">
+                    <VisualState.Setters>
+                        <Setter Target="Face.Background" Value="{ThemeResource Tile8Background}" />
+                        <Setter Target="Label.Foreground" Value="{StaticResource TileLightForeground}" />
+                        <Setter Target="Label.FontSize" Value="32" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Value16">
+                    <VisualState.Setters>
+                        <Setter Target="Face.Background" Value="{ThemeResource Tile16Background}" />
+                        <Setter Target="Label.Foreground" Value="{StaticResource TileLightForeground}" />
+                        <Setter Target="Label.FontSize" Value="30" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Value32">
+                    <VisualState.Setters>
+                        <Setter Target="Face.Background" Value="{ThemeResource Tile32Background}" />
+                        <Setter Target="Label.Foreground" Value="{StaticResource TileLightForeground}" />
+                        <Setter Target="Label.FontSize" Value="30" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Value64">
+                    <VisualState.Setters>
+                        <Setter Target="Face.Background" Value="{ThemeResource Tile64Background}" />
+                        <Setter Target="Label.Foreground" Value="{StaticResource TileLightForeground}" />
+                        <Setter Target="Label.FontSize" Value="30" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Value128">
+                    <VisualState.Setters>
+                        <Setter Target="Face.Background" Value="{ThemeResource Tile128Background}" />
+                        <Setter Target="Label.Foreground" Value="{StaticResource TileLightForeground}" />
+                        <Setter Target="Label.FontSize" Value="26" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Value256">
+                    <VisualState.Setters>
+                        <Setter Target="Face.Background" Value="{ThemeResource Tile256Background}" />
+                        <Setter Target="Label.Foreground" Value="{StaticResource TileLightForeground}" />
+                        <Setter Target="Label.FontSize" Value="26" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Value512">
+                    <VisualState.Setters>
+                        <Setter Target="Face.Background" Value="{ThemeResource Tile512Background}" />
+                        <Setter Target="Label.Foreground" Value="{StaticResource TileLightForeground}" />
+                        <Setter Target="Label.FontSize" Value="26" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Value1024">
+                    <VisualState.Setters>
+                        <Setter Target="Face.Background" Value="{ThemeResource Tile1024Background}" />
+                        <Setter Target="Label.Foreground" Value="{StaticResource TileGoldForeground}" />
+                        <Setter Target="Label.FontSize" Value="21" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Value2048">
+                    <VisualState.Setters>
+                        <Setter Target="Face.Background" Value="{ThemeResource Tile2048Background}" />
+                        <Setter Target="Label.Foreground" Value="{StaticResource TileGoldForeground}" />
+                        <Setter Target="Label.FontSize" Value="21" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Value4096">
+                    <VisualState.Setters>
+                        <Setter Target="Face.Background" Value="{ThemeResource Tile4096Background}" />
+                        <Setter Target="Label.Foreground" Value="{StaticResource TileLightForeground}" />
+                        <Setter Target="Label.FontSize" Value="21" />
+                    </VisualState.Setters>
+                </VisualState>
+                <!--  8192 and beyond  -->
+                <VisualState x:Name="ValueSuper">
+                    <VisualState.Setters>
+                        <Setter Target="Face.Background" Value="{StaticResource TileSuperBackground}" />
+                        <Setter Target="Label.Foreground" Value="{StaticResource TileLightForeground}" />
+                        <Setter Target="Label.FontSize" Value="17" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</UserControl>

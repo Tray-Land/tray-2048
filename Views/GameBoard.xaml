@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The board is the play surface and holds focus the whole time you play, so it draws no focus
+    rectangle; the header buttons and overlay buttons keep theirs.
+-->
+<UserControl
+    x:Class="Tray2048.Views.GameBoard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Width="322"
+    Height="322"
+    AutomationProperties.Name="Game board"
+    FocusVisualPrimaryThickness="0"
+    FocusVisualSecondaryThickness="0"
+    IsTabStop="True"
+    UseSystemFocusVisuals="False">
+
+    <UserControl.Resources>
+        <Storyboard x:Name="OverlayShowStoryboard">
+            <DoubleAnimation
+                Storyboard.TargetName="Overlay"
+                Storyboard.TargetProperty="Opacity"
+                From="0"
+                To="1"
+                Duration="0:0:0.22" />
+            <DoubleAnimation
+                Storyboard.TargetName="OverlayCardTransform"
+                Storyboard.TargetProperty="ScaleX"
+                From="0.88"
+                To="1"
+                Duration="0:0:0.38">
+                <DoubleAnimation.EasingFunction>
+                    <BackEase Amplitude="0.35" EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation
+                Storyboard.TargetName="OverlayCardTransform"
+                Storyboard.TargetProperty="ScaleY"
+                From="0.88"
+                To="1"
+                Duration="0:0:0.38">
+                <DoubleAnimation.EasingFunction>
+                    <BackEase Amplitude="0.35" EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <Storyboard x:Name="OverlayHideStoryboard">
+            <DoubleAnimation
+                Storyboard.TargetName="Overlay"
+                Storyboard.TargetProperty="Opacity"
+                To="0"
+                Duration="0:0:0.14" />
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid
+        x:Name="BoardRoot"
+        Background="{ThemeResource BoardBackgroundBrush}"
+        BorderBrush="{ThemeResource BoardStrokeBrush}"
+        BorderThickness="1"
+        CornerRadius="12"
+        PointerCanceled="BoardRoot_PointerCanceled"
+        PointerCaptureLost="BoardRoot_PointerCanceled"
+        PointerPressed="BoardRoot_PointerPressed"
+        PointerReleased="BoardRoot_PointerReleased">
+
+        <!--  The empty grid the tiles glide over: 8 px gutters, 70 px cells.  -->
+        <Grid
+            Padding="8"
+            ColumnSpacing="8"
+            RowSpacing="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70" />
+                <RowDefinition Height="70" />
+                <RowDefinition Height="70" />
+                <RowDefinition Height="70" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="70" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="0" Grid.Column="3" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="1" Grid.Column="3" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="2" Grid.Column="3" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="3" Grid.Column="2" Style="{StaticResource EmptyCellStyle}" />
+            <Border Grid.Row="3" Grid.Column="3" Style="{StaticResource EmptyCellStyle}" />
+        </Grid>
+
+        <!--  Tiles live here, positioned and animated through their own transforms.  -->
+        <Canvas x:Name="TileLayer" Margin="8">
+            <Canvas.RenderTransform>
+                <TranslateTransform x:Name="BumpTransform" />
+            </Canvas.RenderTransform>
+        </Canvas>
+
+        <!--  Win / game over  -->
+        <Grid
+            x:Name="Overlay"
+            Background="{ThemeResource OverlayBackgroundBrush}"
+            CornerRadius="11"
+            Visibility="Collapsed">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                RenderTransformOrigin="0.5,0.5"
+                Spacing="4">
+                <StackPanel.RenderTransform>
+                    <ScaleTransform x:Name="OverlayCardTransform" />
+                </StackPanel.RenderTransform>
+                <TextBlock
+                    x:Name="OverlayTitle"
+                    HorizontalAlignment="Center"
+                    FontFamily="Segoe UI Variable Display"
+                    FontSize="34"
+                    FontWeight="Bold" />
+                <TextBlock
+                    x:Name="OverlayMessage"
+                    MaxWidth="240"
+                    HorizontalAlignment="Center"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+                <StackPanel
+                    Margin="0,16,0,0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <Button
+                        x:Name="OverlaySecondaryButton"
+                        MinWidth="104"
+                        Click="OverlaySecondaryButton_Click" />
+                    <Button
+                        x:Name="OverlayPrimaryButton"
+                        MinWidth="104"
+                        Click="OverlayPrimaryButton_Click"
+                        Style="{StaticResource AccentButtonStyle}" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
