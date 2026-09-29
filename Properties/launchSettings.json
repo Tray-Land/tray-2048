@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Tray2048 (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Tray2048 (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
