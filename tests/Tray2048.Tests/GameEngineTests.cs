@@ -232,6 +232,23 @@ public class GameEngineTests
     }
 
     [Fact]
+    public void State_SurvivesJsonRoundTrip()
+    {
+        GameEngine original = EngineWith(
+            2, 4, 8, 16,
+            0, 0, 0, 0,
+            0, 0, 0, 0,
+            0, 0, 0, 2);
+        string json = System.Text.Json.JsonSerializer.Serialize(original.ToState());
+
+        GameEngine restored = new(new Random(7));
+        restored.Load(System.Text.Json.JsonSerializer.Deserialize<GameState>(json));
+
+        Assert.Equal(original.ToState().Cells, restored.ToState().Cells);
+        Assert.Equal(original.Score, restored.Score);
+    }
+
+    [Fact]
     public void State_RoundTrips()
     {
         GameEngine engine = EngineWith(
