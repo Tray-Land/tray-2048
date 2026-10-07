@@ -25,7 +25,7 @@ jobs:
 
     # Restore and build must share properties, or the win-x64 runtime pack isn't restored (NETSDK1112).
     - name: Build
-      run: dotnet build Tray2048.csproj --configuration Release /p:PublishReadyToRun=false /p:Platform=x64
+      run: dotnet build Tray2048.csproj --configuration Release /p:PublishReadyToRun=false /p:PublishTrimmed=false /p:Platform=x64
 
     - name: Test
       run: dotnet test tests/Tray2048.Tests/Tray2048.Tests.csproj --configuration Release
